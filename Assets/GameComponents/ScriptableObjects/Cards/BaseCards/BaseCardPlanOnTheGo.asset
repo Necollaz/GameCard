@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deaf4109937e4e8d828ebfc8f3cb64e7, type: 3}
+  m_Name: BaseCardPlanOnTheGo
+  m_EditorClassIdentifier: 
+  _cardViewPrefab: {fileID: 2173551596913236380, guid: 352f38fe7218443cf8f7854938c1bba9, type: 3}
+  _trait:
+    _traitName: "\u0421\u043C\u0438\u0440\u0435\u043D\u0438\u0435"
+    _traitIcon: {fileID: 21300000, guid: 452012ebe6d33bc4bbb53a355f77ce63, type: 3}
+  _deckSymbol:
+    _raceType: 0
+    _deckSymbolName: "\u0421\u0442\u0430\u0440\u0442\u043E\u0432\u0430\u044F"
+    _symbolIcon: {fileID: 0}
+  _backgroundImage: {fileID: 21300000, guid: a65a42cd7701dc841a67b671528cda32, type: 3}
+  _cardName: "\u041F\u043B\u0430\u043D \u043D\u0430 \u0445\u043E\u0434\u0443"
+  _cardEffect: "\u0421\u0431\u0440\u043E\u0441\u044C 1 \u043A\u0430\u0440\u0442\u0443,
+    \u0437\u0430\u0442\u0435\u043C \u0432\u043E\u0437\u044C\u043C\u0438 1."
+  _cost: 0
+  _currentIndexInDeck: 0
+  _totalCardsInDeck: 0
+  _valueInPlayerDeck: 0
+  _valueInInnerCircle: 1
+  _rarityLevel: 0

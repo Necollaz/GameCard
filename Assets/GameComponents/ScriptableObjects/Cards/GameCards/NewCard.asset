@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deaf4109937e4e8d828ebfc8f3cb64e7, type: 3}
+  m_Name: NewCard
+  m_EditorClassIdentifier: 
+  _cardViewPrefab: {fileID: 0}
+  _trait:
+    _traitName: 
+    _traitIcon: {fileID: 0}
+  _deckSymbol:
+    _raceType: 1
+    _deckSymbolName: 
+    _symbolIcon: {fileID: 0}
+  _backgroundImage: {fileID: 0}
+  _cardName: 
+  _cardEffect: 
+  _cost: 0
+  _currentIndexInDeck: 0
+  _totalCardsInDeck: 0
+  _valueInPlayerDeck: 0
+  _valueInInnerCircle: 0
+  _rarityLevel: 0
