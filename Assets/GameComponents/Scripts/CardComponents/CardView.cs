@@ -1,7 +1,7 @@
-using GameComponents.Scripts.CardComponents.CardDataComponents;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using GameComponents.Scripts.CardComponents.CardDataComponents;
+using TMPro;
 
 namespace GameComponents.Scripts.CardComponents
 {
@@ -34,19 +34,16 @@ namespace GameComponents.Scripts.CardComponents
         [SerializeField] private Image _traitIconImage;
         [Tooltip("Иконка символа колоды (если не стартовая карта)")]
         [SerializeField] private Image _deckSymbolIcon;
-
+        
         [Header("Rarity")]
-        [Tooltip("Контейнер, куда будут инстанцироваться иконки редкости")]
+        [Tooltip("Контейнер с иконками редкости")]
         [SerializeField] private Transform _rarityContainer;
         [Tooltip("Префаб иконки редкости")]
         [SerializeField] private Image _rarityIconPrefab;
 
-        private void Start()
-        {
-            SetCard(_cardData);
-        }
+        public CardData CardData => _cardData;
 
-        private void SetCard(CardData data)
+        public void SetCard(CardData data)
         {
             if(data == null)
                 return;
