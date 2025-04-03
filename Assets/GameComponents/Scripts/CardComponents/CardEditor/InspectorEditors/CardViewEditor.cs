@@ -1,5 +1,5 @@
-using GameComponents.Scripts.CardComponents.CardDataComponents;
 using UnityEditor;
+using GameComponents.Scripts.CardComponents.CardDataComponents;
 
 namespace GameComponents.Scripts.CardComponents.CardEditor.InspectorEditors
 {

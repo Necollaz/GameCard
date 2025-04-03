@@ -13,29 +13,35 @@ namespace GameComponents.Scripts.CardComponents.CardDataComponents
         private Vector3 _originalLocalPosition;
         private Vector3 _originalLocalRotation;
         
+        private int _originalSiblingIndex;
         private bool _stateRecorded = false;
-        private bool _isHovered = false;
+        
+        public void SetOrigin(Vector3 pos, Vector3 rot, int siblingIndex)
+        {
+            _originalLocalPosition = pos;
+            _originalLocalRotation = rot;
+            _originalSiblingIndex = siblingIndex;
+            _stateRecorded = false;
+        }
         
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (_cardFlipper != null && _cardFlipper.IsPlayed)
+            if (_cardFlipper != null && (!_cardFlipper.IsInteractive || _cardFlipper.IsPlayed))
                 return;
-            
-            transform.SetAsLastSibling();
             
             if (!_stateRecorded)
             {
                 _originalLocalPosition = transform.localPosition;
                 _originalLocalRotation = transform.localEulerAngles;
+                _originalSiblingIndex = transform.GetSiblingIndex();
                 _stateRecorded = true;
             }
             
+            transform.SetAsLastSibling();
+            
             transform.DOKill();
-            
-            _isHovered = true;
-            
             transform.DOLocalMove(_originalLocalPosition + Vector3.up * _hoverOffset, _hoverDuration).SetEase(Ease.OutQuad);
-            transform.DOLocalRotate(Vector3.zero, _hoverDuration).SetEase(Ease.OutQuad);
+            transform.DOLocalRotate(_originalLocalRotation, _hoverDuration).SetEase(Ease.OutQuad);
         }
         
         public void OnPointerExit(PointerEventData eventData)
@@ -47,12 +53,14 @@ namespace GameComponents.Scripts.CardComponents.CardDataComponents
         {
             if (!_stateRecorded) 
                 return;
-        
-            _isHovered = false;
             
             transform.DOKill();
             transform.DOLocalMove(_originalLocalPosition, _hoverDuration).SetEase(Ease.OutQuad);
-            transform.DOLocalRotate(_originalLocalRotation, _hoverDuration).SetEase(Ease.OutQuad).OnComplete(() => { _stateRecorded = false; });
+            transform.DOLocalRotate(_originalLocalRotation, _hoverDuration).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                transform.SetSiblingIndex(_originalSiblingIndex);
+                _stateRecorded = false;
+            });
         }
     }
 }

@@ -1,6 +1,6 @@
-using GameComponents.Scripts.CardComponents.CardDataComponents;
 using UnityEditor;
 using UnityEngine;
+using GameComponents.Scripts.CardComponents.CardDataComponents;
 
 namespace GameComponents.Scripts.CardComponents.CardEditor.InspectorEditors
 {
@@ -30,12 +30,11 @@ namespace GameComponents.Scripts.CardComponents.CardEditor.InspectorEditors
             EditorGUILayout.PropertyField(serializedObject.FindProperty(CardViewPrefab));
             EditorGUILayout.PropertyField(serializedObject.FindProperty(CardName));
             EditorGUILayout.PropertyField(serializedObject.FindProperty(Trait));
-
-            // Отображаем фоновое изображение на карте
             EditorGUILayout.PropertyField(serializedObject.FindProperty(BackgroundImage));
 
             SerializedProperty deckSymbolProp = serializedObject.FindProperty(DeckSymbol);
             SerializedProperty raceTypeProp = deckSymbolProp.FindPropertyRelative(RaceTypeField);
+            
             EditorGUILayout.PropertyField(raceTypeProp);
 
             if((RaceType)raceTypeProp.enumValueIndex == RaceType.Base)

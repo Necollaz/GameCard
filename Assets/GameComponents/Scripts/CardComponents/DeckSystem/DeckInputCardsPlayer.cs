@@ -11,6 +11,7 @@ namespace GameComponents.Scripts.CardComponents.DeckSystem
         
         private readonly List<CardView> _drawCards = new List<CardView>();
         public bool HasCards => _drawCards.Count > 0;
+        public int Count => _drawCards.Count;
         
         private void Start()
         {
@@ -34,15 +35,15 @@ namespace GameComponents.Scripts.CardComponents.DeckSystem
         
         public void RefillFromDiscard(DeckDiscardCardsPlayer discardDeck)
         {
-            if(!HasCards && discardDeck != null && discardDeck.HasCards)
+            if (discardDeck != null && discardDeck.HasCards)
             {
                 List<CardView> discardCards = discardDeck.ClearPile();
-
-                foreach(CardView card in discardCards)
+                
+                foreach (CardView card in discardCards)
                 {
                     AddCard(card);
                 }
-
+                
                 Shuffle();
             }
         }
@@ -61,21 +62,39 @@ namespace GameComponents.Scripts.CardComponents.DeckSystem
                 {
                     CardView cardInstance = Instantiate(entry.CardPrefab, transform.position, Quaternion.identity, transform);
                     
+                    if(cardInstance.TryGetComponent(out CardFlipper flipper))
+                    {
+                        flipper.ResetToBackSide();
+                    }
+                    
                     _drawCards.Add(cardInstance);
-                    cardInstance.transform.DOMove(transform.position, _moveDuration).SetEase(Ease.OutQuad);
+                    cardInstance.transform.DOLocalMove(Vector3.zero, _moveDuration).SetEase(Ease.OutQuad);
+                    
+                    float rotationOffset = Random.Range(-5f, 5f);
+                    
+                    cardInstance.transform.DOLocalRotate(new Vector3(0, 0, rotationOffset), _moveDuration).SetEase(Ease.OutQuad);
                 }
             }
         }
         
         private void AddCard(CardView card, bool toBottom = false)
         {
+            if (card.TryGetComponent(out CardFlipper flipper))
+            {
+                flipper.ResetToBackSide();
+            }
+            
             if(toBottom)
                 _drawCards.Insert(0, card);
             else
                 _drawCards.Add(card);
             
             card.transform.SetParent(transform, false);
-            card.transform.DOMove(transform.position, _moveDuration).SetEase(Ease.OutQuad);
+            card.transform.DOLocalMove(Vector3.zero, _moveDuration).SetEase(Ease.OutQuad);
+            
+            float rotationOffset = Random.Range(-5f, 5f);
+            
+            card.transform.DOLocalRotate(new Vector3(0, 0, rotationOffset), _moveDuration).SetEase(Ease.OutQuad);
         }
         
         private void Shuffle()
