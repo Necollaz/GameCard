@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using GameComponents.Scripts.CardComponents.CardDataComponents;
+using GameComponents.Scripts.CardComponents.DeckSystem;
 
 namespace GameComponents.Scripts.CardComponents
 {
     public class CardFlipper : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField] private CardView _cardView;
-        
-        [Header("Side Groups (CanvasGroup)")]
         [Tooltip("CanvasGroup лицевой стороны карты")]
         [SerializeField] private CanvasGroup _faceSideGroup;
         [Tooltip("CanvasGroup рубашки карты")]
@@ -18,16 +18,13 @@ namespace GameComponents.Scripts.CardComponents
         private bool _isPlayed = false;
         
         public bool IsPlayed => _isPlayed;
+        public bool IsInteractive { get; set; } = false;
         
         private void Start()
         {
             _cardView.SetCard(_cardView.CardData);
             
-            if (_faceSideGroup != null)
-                _faceSideGroup.alpha = 1;
-            
-            if(_backSideGroup != null)
-                _backSideGroup.alpha = 0;
+            ResetToBackSide();
         }
         
         public void ResetToFaceUp()
@@ -35,19 +32,32 @@ namespace GameComponents.Scripts.CardComponents
             _isPlayed = false;
             _isAnimating = false;
             transform.localEulerAngles = Vector3.zero;
+            _faceSideGroup.alpha = 1;
             
-            if (_faceSideGroup != null)
-                _faceSideGroup.alpha = 1;
+            _faceSideGroup.transform.SetAsLastSibling();
             
-            if(_backSideGroup != null)
-                _backSideGroup.alpha = 0;
+            _backSideGroup.alpha = 0;
+            IsInteractive = false;
         }
-
+        
+        public void ResetToBackSide()
+        {
+            _isPlayed = false;
+            _isAnimating = false;
+            transform.localEulerAngles = Vector3.zero;
+            _faceSideGroup.alpha = 0;
+            _backSideGroup.alpha = 1;
+            
+            _backSideGroup.transform.SetAsLastSibling();
+            
+            IsInteractive = false;
+        }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_isAnimating || _isPlayed || eventData.button != PointerEventData.InputButton.Left)
+            if (_isAnimating || _isPlayed || eventData.button != PointerEventData.InputButton.Left || !IsInteractive)
                 return;
-        
+    
             FlipCard();
         }
         
@@ -79,6 +89,21 @@ namespace GameComponents.Scripts.CardComponents
                 if (_backSideGroup != null)
                 {
                     _backSideGroup.DOFade(0.5f, 0.2f);
+                }
+                
+                IsInteractive = false;
+                
+                if (TryGetComponent(out CardHoverEffect hoverEffect))
+                {
+                    hoverEffect.ForceExitHover();
+                }
+                
+                if (transform.parent != null)
+                {
+                    DeckHandCardsPlayer hand = transform.parent.GetComponent<DeckHandCardsPlayer>();
+                    
+                    if (hand != null)
+                        hand.HandleCardPlayed(_cardView);
                 }
             });
         }
