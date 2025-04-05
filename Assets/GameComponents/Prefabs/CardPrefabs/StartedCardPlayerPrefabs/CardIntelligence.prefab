@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: _hoverOffset
       value: 230
       objectReference: {fileID: 0}
+    - target: {fileID: 1770544548749282844, guid: fd24af9651b044c5f880ee925b4befc8, type: 3}
+      propertyPath: _hoverDuration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1970421570222864702, guid: fd24af9651b044c5f880ee925b4befc8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

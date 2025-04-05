@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using GameComponents.Scripts.CardComponents.CardAnimations;
 using GameComponents.Scripts.CardComponents.CardDataComponents;
+using GameComponents.Scripts.CardComponents.CardInterfaces;
 using GameComponents.Scripts.CardComponents.DeckSystem;
 
 namespace GameComponents.Scripts.CardComponents
@@ -13,6 +15,8 @@ namespace GameComponents.Scripts.CardComponents
         [SerializeField] private CanvasGroup _faceSideGroup;
         [Tooltip("CanvasGroup рубашки карты")]
         [SerializeField] private CanvasGroup _backSideGroup;
+        
+        private readonly ICardAnimationHelper _animator = new CardAnimationHelper();
         
         private bool _isAnimating = false;
         private bool _isPlayed = false;
@@ -67,7 +71,7 @@ namespace GameComponents.Scripts.CardComponents
             float duration = 0.5f;
             Sequence seq = DOTween.Sequence();
             
-            seq.Append(transform.DOLocalRotate(new Vector3(0, 90, 0), duration / 2).SetEase(Ease.InQuad));
+            seq.Append(_animator.RotateCard(transform, new Vector3(0, 90, 0), duration / 2));
             
             seq.AppendCallback(() =>
             {
@@ -78,7 +82,7 @@ namespace GameComponents.Scripts.CardComponents
                 }
             });
             
-            seq.Append(transform.DOLocalRotate(new Vector3(0, 180, 0), duration / 2).SetEase(Ease.OutQuad));
+            seq.Append(_animator.RotateCard(transform, new Vector3(0, 180, 0), duration / 2));
     
             seq.OnComplete(() =>
             {
@@ -87,16 +91,12 @@ namespace GameComponents.Scripts.CardComponents
                 transform.localEulerAngles = new Vector3(0, 180, 0);
                 
                 if (_backSideGroup != null)
-                {
                     _backSideGroup.DOFade(0.5f, 0.2f);
-                }
                 
                 IsInteractive = false;
                 
                 if (TryGetComponent(out CardHoverEffect hoverEffect))
-                {
                     hoverEffect.ForceExitHover();
-                }
                 
                 if (transform.parent != null)
                 {
