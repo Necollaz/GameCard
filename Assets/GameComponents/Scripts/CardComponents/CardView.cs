@@ -48,55 +48,57 @@ namespace GameComponents.Scripts.CardComponents
             if(data == null)
                 return;
 
-            if(_backgroundImage != null && _cardNameText != null && _traitIconImage != null && _traitNameText != null)
-            {
-                _backgroundImage.sprite = data.BackgroundImage;
-                _cardNameText.text = data.CardName;
-                _traitIconImage.sprite = data.Trait.TraitIcon;
-                _traitNameText.gameObject.SetActive(true);
-                _traitNameText.text = data.Trait.TraitName;
-            }
+            SetupImage(_backgroundImage, data.BackgroundImage, true);
+            SetupText(_cardNameText, data.CardName, true);
+            SetupImage(_traitIconImage, data.Trait.TraitIcon, true);
+            SetupText(_traitNameText, data.Trait.TraitName, true);
 
-            if(data.DeckSymbol.RaceType == RaceType.Base)
+            if (data.DeckSymbol.RaceType == RaceType.Base)
             {
-                if(_deckSymbolText != null && _deckSymbolIcon != null && _cardEffectText != null && _valueInDeckText != null && _valueInCircleText != null && _costText != null && _deckCountText != null)
-                {
-                    _deckSymbolText.gameObject.SetActive(true);
-                    _deckSymbolText.text = data.DeckSymbolLabel;
-                    _deckSymbolIcon.gameObject.SetActive(false);
-                    _cardEffectText.gameObject.SetActive(true);
-                    _cardEffectText.text = data.CardEffect;
-                    _valueInDeckText.gameObject.SetActive(true);
-                    _valueInDeckText.text = data.ValueInPlayerDeck.ToString();
-                    _valueInCircleText.gameObject.SetActive(true);
-                    _valueInCircleText.text = data.ValueInInnerCircle.ToString();
-                    _costText.gameObject.SetActive(false);
-                    _deckCountText.gameObject.SetActive(false);
-                }
-                
-                UpdateRarity(0);
+                SetupText(_deckSymbolText, data.DeckSymbolLabel, true);
+                SetActive(_deckSymbolIcon, false);
+                SetupText(_cardEffectText, data.CardEffect, true);
+                SetupText(_valueInDeckText, data.ValueInPlayerDeck.ToString(), true);
+                SetupText(_valueInCircleText, data.ValueInInnerCircle.ToString(), true);
+                SetActive(_costText, false);
+                SetActive(_deckCountText, false);
             }
             else
             {
-                if(_costText != null && _deckCountText != null && _cardEffectText != null && _valueInDeckText != null && _valueInCircleText != null && _deckSymbolIcon != null && _deckSymbolText != null)
-                {
-                    _costText.gameObject.SetActive(true);
-                    _costText.text = data.Cost.ToString();
-                    _deckCountText.gameObject.SetActive(true);
-                    _deckCountText.text = $"{data.CurrentIndexInDeck}/{data.TotalCardsInDeck}";
-                    _cardEffectText.gameObject.SetActive(true);
-                    _cardEffectText.text = data.CardEffect;
-                    _valueInDeckText.gameObject.SetActive(true);
-                    _valueInDeckText.text = data.ValueInPlayerDeck.ToString();
-                    _valueInCircleText.gameObject.SetActive(true);
-                    _valueInCircleText.text = data.ValueInInnerCircle.ToString();
-                    _deckSymbolIcon.gameObject.SetActive(true);
-                    _deckSymbolIcon.sprite = data.DeckSymbol.SymbolIcon;
-                    _deckSymbolText.gameObject.SetActive(false);
-                }
-                
-                UpdateRarity(data.RarityLevel);
+                SetupText(_costText, data.Cost.ToString(), true);
+                SetupText(_deckCountText, $"{data.CurrentIndexInDeck}/{data.TotalCardsInDeck}", true);
+                SetupText(_cardEffectText, data.CardEffect, true);
+                SetupText(_valueInDeckText, data.ValueInPlayerDeck.ToString(), true);
+                SetupText(_valueInCircleText, data.ValueInInnerCircle.ToString(), true);
+                SetupImage(_deckSymbolIcon, data.DeckSymbol.SymbolIcon, true);
+                SetActive(_deckSymbolText, false);
             }
+
+            UpdateRarity(data.RarityLevel);
+        }
+        
+        private void SetupText(TextMeshProUGUI textComponent, string value, bool active)
+        {
+            if (textComponent != null)
+            {
+                textComponent.gameObject.SetActive(active);
+                textComponent.text = value;
+            }
+        }
+
+        private void SetupImage(Image imageComponent, Sprite sprite, bool active)
+        {
+            if (imageComponent != null)
+            {
+                imageComponent.gameObject.SetActive(active);
+                imageComponent.sprite = sprite;
+            }
+        }
+
+        private void SetActive(Graphic graphicComponent, bool active)
+        {
+            if (graphicComponent != null)
+                graphicComponent.gameObject.SetActive(active);
         }
         
         private void UpdateRarity(int level)

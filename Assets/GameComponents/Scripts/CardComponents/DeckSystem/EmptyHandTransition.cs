@@ -38,9 +38,7 @@ namespace GameComponents.Scripts.CardComponents.DeckSystem
             int missingCards = _desiredHandCount - _handDeck.GetCards().Count;
             
             if (_inputDeck.Count < missingCards && _discardDeck.HasCards)
-            {
                 _inputDeck.RefillFromDiscard(_discardDeck);
-            }
             
             while (_handDeck.GetCards().Count < _desiredHandCount && _inputDeck.HasCards)
             {

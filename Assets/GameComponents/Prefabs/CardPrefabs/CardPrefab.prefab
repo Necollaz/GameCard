@@ -1045,7 +1045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardFlipper: {fileID: 7011038035157479500}
   _hoverOffset: 230
-  _hoverDuration: 0.25
+  _hoverDuration: 1
 --- !u!1 &4395670994589235689
 GameObject:
   m_ObjectHideFlags: 0

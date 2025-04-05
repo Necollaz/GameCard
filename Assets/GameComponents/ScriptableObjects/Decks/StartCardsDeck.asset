@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _deckEntries:
   - _cardPrefab: {fileID: 6075499467322417754, guid: 232c2ee55394f438fb46f6fd099e2ee0, type: 3}
-    _count: 4
+    _count: 2
   - _cardPrefab: {fileID: 8745805509794651439, guid: e514b88b9aa304b1987139237bb3eab9, type: 3}
     _count: 1
   - _cardPrefab: {fileID: 5838377528705163868, guid: f115788181cae471297366676e4c1d3b, type: 3}
